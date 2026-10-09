@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-visual">
+  <meta name="theme-color" content="#F0E9D9">
+  <title>STRYDE — Unlock the drop</title>
+  <meta name="description" content="A one-time-code input built as a slot machine: six chrome reels, a lever that submits, a marquee that hits the jackpot.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wdth,wght@100..125,700..900&family=Inter:wght@400..800&display=swap">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site">
+    <a class="logo" href="#">STRYDE</a>
+    <nav class="links" aria-label="Main"><a href="#">Drops</a><span aria-hidden="true">·</span><a href="#">About</a><span aria-hidden="true">·</span><a href="#">Latest</a></nav>
+    <a class="cta" href="#code">Unlock</a>
+  </header>
+
+  <main class="drop">
+    <div class="copy">
+      <p class="eyebrow">Runner 01 “Blaze” · 300 pairs</p>
+      <h1>Unlock<br>the drop.</h1>
+      <p class="closes"><span>Drop closes in</span> <b class="closes-t">02:14</b></p>
+      <p class="lede">We texted a 6-digit code to <span class="nowrap">•••&nbsp;•••&nbsp;0142</span>. Type it, paste it — or pull the lever.</p>
+    </div>
+
+    <!-- ================================ THE COMPONENT ================================
+         A one-time-code input built as a slot machine. Underneath the cabinet is ONE real text input
+         (inputmode numeric, autocomplete one-time-code, maxlength 6), so SMS autofill, password managers, paste and
+         screen readers all work the ordinary way; the six reels only mirror its value. Typing spins a reel and lands it
+         on the digit, Backspace rolls it back to blank, the lever submits. app.js owns the value and the states. -->
+    <section class="otp" id="code" data-state="idle" aria-labelledby="otp-label" data-fit>
+      <div class="cab">
+        <i class="tab t1" aria-hidden="true"></i><i class="tab t2" aria-hidden="true"></i>
+        <i class="halo" aria-hidden="true"></i>
+        <i class="shell" aria-hidden="true"></i>
+        <i class="frame" aria-hidden="true"></i>
+        <i class="rail" aria-hidden="true"></i>
+        <i class="panel" aria-hidden="true"></i>
+        <div class="lights side" aria-hidden="true"></div>
+
+        <!-- the marquee: the sign carries the brand, then the result -->
+        <div class="sign" aria-hidden="true">
+          <i class="sign-rim"></i><i class="sign-band"></i><i class="sign-track"></i>
+          <div class="lights top"></div>
+          <i class="sign-plate"></i>
+          <p class="word" data-text="STRYDE"><span class="w-depth"></span><span class="w-out"></span><span class="w-line"></span><span class="w-fill"></span><span class="w-red"></span></p>
+          <p class="badge"></p>
+        </div>
+
+        <!-- the reels: the input sits over them, so a tap on any reel focuses it (and opens the phone's keyboard) -->
+        <div class="reels">
+          <label id="otp-label" class="sr-only" for="otp-input">Verification code, 6 digits</label>
+          <input id="otp-input" class="code" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6"
+                 pattern="[0-9]*" spellcheck="false" autocorrect="off" autocapitalize="off" enterkeyhint="go"
+                 aria-describedby="otp-hint">
+        </div>
+
+        <div class="lever">
+          <i class="lv-base" aria-hidden="true"></i>
+          <i class="lv-house" aria-hidden="true"></i>
+          <button class="arm" type="button" aria-label="Pull the lever to submit the code">
+            <i class="rod" aria-hidden="true"></i><i class="ball" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- inside the cabinet's foot on a wide screen, under it (full-size buttons) on a phone -->
+      <div class="tray">
+        <button class="paste chip" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4h6v3H9zM8 5H6a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1h-2"/><path d="M8.5 12h7M8.5 16h5"/></svg><span>Paste<span class="pc-more"> code</span></span></button>
+        <button class="resend" type="button" aria-disabled="true" aria-describedby="resend-t">
+          <span class="ring" aria-hidden="true"><svg viewBox="0 0 100 100"><circle class="r-track" cx="50" cy="50" r="44"/><circle class="r-arc" cx="50" cy="50" r="44" pathLength="100"/></svg></span>
+          <span class="r-wait" aria-hidden="true"><small>Resend in</small><b class="r-time">0:30</b></span>
+          <span class="r-go">Resend<br>code</span>
+          <span id="resend-t" class="sr-only"></span>
+        </button>
+        <p class="attempts chip"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg><span class="a-text">3 attempts left</span></p>
+      </div>
+
+      <div class="under">
+        <button class="tog mask" type="button" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="eye" d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle class="eye" cx="12" cy="12" r="3"/><path class="slash" d="M4 4l16 16"/></svg><span>Hide digits</span></button>
+        <button class="tog sound" type="button" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 6v12l-4.5-3.5H4z"/><path class="wave" d="M15.5 9.5a3.5 3.5 0 0 1 0 5M18 7a7 7 0 0 1 0 10"/><path class="slash" d="M15.5 9.5l5 5M20.5 9.5l-5 5"/></svg><span>Sound off</span></button>
+        <p id="otp-hint" class="hint">Type, paste, or pull the lever.</p>
+        <button class="again" type="button" hidden>Reset demo</button>
+      </div>
+
+      <p class="sr-only live" aria-live="polite"></p>
+      <p class="sr-only alert" aria-live="assertive"></p>
+    </section>
+
+    <!-- the payoff: the box stays taped shut until the code is right -->
+    <figure class="box" data-open="false">
+      <div class="box-in">
+        <img src="img/runner01-box.jpg" width="584" height="700" alt="The STRYDE Runner 01 in orange, blue and cream, lifted out of its open box." decoding="async">
+        <div class="lid" aria-hidden="true">
+          <span class="lid-stamp">STRYDE</span>
+          <span class="lid-label"><i></i><small>RUNNER 01 · BLAZE · US 10</small></span>
+          <span class="tape l"><b>DROP 01 · LOCKED · DROP 01 · LOCKED · DROP 01 · LOCKED</b></span>
+          <span class="tape r"><b>DROP 01 · LOCKED · DROP 01 · LOCKED · DROP 01 · LOCKED</b></span>
+          <span class="lid-lock"><svg viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></svg>Code required</span>
+        </div>
+      </div>
+      <figcaption><b class="cap-title">Runner 01 “Blaze”</b><span class="cap-text">Taped shut until the code is right.</span></figcaption>
+    </figure>
+  </main>
+
+  <div class="confetti" aria-hidden="true"></div>
+
+  <script src="reel.js"></script>
+  <script src="cabinet.js"></script>
+  <script src="lever.js"></script>
+  <script src="fx.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
